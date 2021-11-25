@@ -1,16 +1,15 @@
 export default function Footer() {
-
+    
     return (
-        <footer className="bg-white-900 pt-1">
-          <div className="container mx-auto px-6">
-            <div className="mt-5 flex flex-col items-center">
-              <div className="py-6">
-                <p className="mb-6 text-black text-sm text-primary-2 font-bold">
-                    © {new Date().getFullYear()} Made with ❤️ Group 2 BSCS 4-3
-                </p>
-              </div>
+        <footer className="bg-white px-10 border-t">
+            <div className="max-w-7xl mx-auto py-3" aria-label="Global">
+                <div className="flex justify-between">
+                    <div> <img src="logo.png"/> </div>
+                    <div className="my-auto text-gray-500 text-sm">
+                        Made with ❤️ by Group 2 BSCS 4-3 © Copyright 2021.
+                    </div>
+                </div>
             </div>
-          </div>
         </footer>
     )
 }
