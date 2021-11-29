@@ -1,0 +1,44 @@
+[
+  {
+    "id": "1410474",
+    "lotNum": "12345",
+    "surveyNum": "67890",
+    "area": "1",
+    "location": "Cagayan Valley",
+    "locationDesc": "17.261446, 121.856633",
+    "type": "Commercial Farm ",
+    "farmStatus": "Cultivated",
+    "status": "Registered",
+    "image": "https://thrangra.sirv.com/Next_TypeScript_Shopify_Final.jpg",
+    "deed": [
+      {
+        "owner": "Juan Dela Cruz ",
+        "address": "Cagayan Valley",
+        "cadNum": "123",
+        "lrcNum": "456"
+      }
+    ],
+    "createdAt": ""
+  },
+  {
+    "id": "1331625",
+    "lotNum": "67890",
+    "surveyNum": "12345",
+    "area": "1.5",
+    "location": "Isabela",
+    "locationDesc": "121.856633, 17.261446",
+    "type": "Regular Farm ",
+    "farmStatus": "Idle",
+    "status": "Registered",
+    "image": "https://thrangra.sirv.com/Next_TypeScript_Shopify_Final.jpg",
+    "deed": [
+      {
+        "owner": "Juan Dela Cruz",
+        "address": "Isabela",
+        "cadNum": "456",
+        "lrcNum": "123"
+      }
+    ],
+    "createdAt": ""
+  }
+]
