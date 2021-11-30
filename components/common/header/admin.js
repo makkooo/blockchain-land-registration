@@ -9,8 +9,6 @@ export default function AdminHeader() {
     const { connect, isLoading, isWeb3Loaded } = useWeb3()
     const { account } = useAccount()
 
-    console.log(showModal)
-
     return (
         <header className="bg-white px-10 border-b">
             {account.data}
@@ -33,7 +31,7 @@ export default function AdminHeader() {
                                 Add Field Validator
                             </button>
                             <button 
-                                className="cursor-default bg-red-500 text-white font-medium rounded-lg text-sm ml-2 p-2 text-center">
+                                className="cursor-default bg-red-100 border-2 border-red-500 text-red-500 font-medium rounded-lg text-sm ml-2 p-2 text-center">
                                 Connected LRA
                             </button>
                         </div> :
@@ -44,7 +42,7 @@ export default function AdminHeader() {
                                 Add Property
                             </button>
                             <button 
-                                className="cursor-default bg-red-500 text-white font-medium rounded-lg text-sm ml-2 p-2 text-center">
+                                className="cursor-default bg-red-100 border-2 border-red-500 text-red-500 font-medium rounded-lg text-sm ml-2 p-2 text-center">
                                 Connected
                             </button>
                         </div> :

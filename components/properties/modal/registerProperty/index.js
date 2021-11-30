@@ -1,10 +1,18 @@
 import Modal from "@components/common/modal";
 import { useEffect, useState } from "react";
 
+const defaultDeedDetails = {
+    owner: "",
+    address: "",
+    cadNum: "",
+    lrcNum: "",
+    registeredAt: ""
+}
+
 export default function PropertyModal({property, onClose}) {
      
     const [isOpen, setIsOpen] = useState(false)
-
+    const [deedDetails, setDeedDetails] = useState(defaultDeedDetails)
     useEffect(() => {
         if(!!property) {
             setIsOpen(true)
@@ -16,9 +24,23 @@ export default function PropertyModal({property, onClose}) {
         onClose()
     }
 
+    const handleSubmit = () => {
+        fetch('http://localhost:3500/properties/' + property.id, {
+            method: 'PATCH',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                ...property,
+                status: "Registered",
+                deed: [{
+                    ...deedDetails,
+                    registeredAt: Date.now()
+                }]
+            })
+        }).then(closeModal()).then(location.replace('/admin'))
+    }
+
     return (
         <Modal isOpen={isOpen}>
-        { property.deed.map(d => 
             <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-y-auto shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
 
                 <div className="relative">
@@ -28,26 +50,13 @@ export default function PropertyModal({property, onClose}) {
                         <svg className="w-10 h-10 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                         </button> 
                     </div>
-                    <div className="absolute bottom-5 left-5">
-                        { property.status=="Registered" ?
-                            <span
-                                className="bg-green-100 border-2 border-green-500 text-green-500 font-medium rounded-lg text-sm p-2 text-center">
-                                Registered
-                            </span> :
-                            <span
-                                className="bg-yellow-100 border-2 border-yellow-500 text-yellow-500 font-medium rounded-lg text-sm p-2 text-center">
-                                Pending
-                            </span>
-                        }
-                    </div>
                 </div>
-                
+
                 <div className="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                     <h3 className="pb-3 text-lg font-bold leading-6 text-gray-900 border-b" id="modal-title">
                         Property Details
                     </h3>
                 </div> 
-
                 <div class="grid gap-1 grid-cols-2 px-3">
                     <div> 
                         <div className="flex items-center px-4 pt-3 pb-1">
@@ -121,39 +130,103 @@ export default function PropertyModal({property, onClose}) {
                     </h3>
                 </div> 
 
-                <div class="grid gap-1 grid-cols-2 px-3 pb-5">
-                    <div>
-                        <div className="flex items-center px-4 pt-3 pb-1">
-                            <svg className="h-5 w-5 text-gray-500 mr-1"  fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-                            <span className="text-xs text-gray-500 font-medium uppercase">Owner</span>
+                <form onSubmit={handleSubmit}>
+                    <div class="grid gap-1 grid-cols-2 px-3">
+                        <div>
+                            <div className="flex items-center px-4 pt-3 pb-1">
+                                <svg className="h-5 w-5 text-gray-500 mr-1"  fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                                <span className="text-xs text-gray-500 font-medium uppercase">Owner</span>
+                            </div>
+                            <div className="pl-5">
+                                <input
+                                    onChange={({target : {value}}) => {
+                                        setDeedDetails({
+                                            ...deedDetails,
+                                            owner: value.trim()
+                                        })
+                                    }}
+                                    required
+                                    name="owner"
+                                    id="owner"
+                                    className="w-30 focus:ring-indigo-500 shadow-md focus:border-indigo-500 block pl-7 p-4 sm:text-sm border-gray-300 rounded-md"
+                                    placeholder="Enter Owner Name"
+                                />
+                            </div>
                         </div>
-                        <span className="px-10 text-md font-medium">{d.owner}</span>
-                    </div>
-                    <div>
-                        <div className="flex items-center px-4 pt-3 pb-1">
-                            <svg class="h-5 w-5 text-gray-500 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
-                            <span className="text-xs text-gray-500 font-medium uppercase">Owner Address</span>
+                        <div>
+                            <div className="flex items-center px-4 pt-3 pb-1">
+                                <svg class="h-5 w-5 text-gray-500 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                                <span className="text-xs text-gray-500 font-medium uppercase">Owner Address</span>
+                            </div>
+                            <div className="pl-5">
+                                <input
+                                    onChange={({target : {value}}) => {
+                                        setDeedDetails({
+                                            ...deedDetails,
+                                            address: value.trim()
+                                        })
+                                    }}
+                                    required
+                                    name="address"
+                                    id="address"
+                                    className="w-30 focus:ring-indigo-500 shadow-md focus:border-indigo-500 block pl-7 p-4 sm:text-sm border-gray-300 rounded-md"
+                                    placeholder="Enter Owner Address"
+                                />
+                            </div>
                         </div>
-                        <span className="px-10 text-md font-medium">{d.address}</span>
-                    </div>
-                    <div>
-                        <div className="flex items-center px-4 pt-3 pb-1">
-                            <svg className="h-5 w-5 text-gray-500 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                            <span className="text-xs text-gray-500 font-medium uppercase">Cadastral Number</span>
+                        <div>
+                            <div className="flex items-center px-4 pt-3 pb-1">
+                                <svg className="h-5 w-5 text-gray-500 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                <span className="text-xs text-gray-500 font-medium uppercase">Cadastral Number</span>
+                            </div>
+                            <div className="pl-5">
+                                <input
+                                    onChange={({target : {value}}) => {
+                                        setDeedDetails({
+                                            ...deedDetails,
+                                            cadNum: value.trim()
+                                        })
+                                    }}
+                                    required
+                                    name="cadNum"
+                                    id="cadNum"
+                                    className="w-30 focus:ring-indigo-500 shadow-md focus:border-indigo-500 block pl-7 p-4 sm:text-sm border-gray-300 rounded-md"
+                                    placeholder="Enter Cadastral Number"
+                                />
+                            </div>
                         </div>
-                        <span className="px-10 text-md font-medium">{d.cadNum}</span>
-                    </div>
-                    <div>
-                        <div className="flex items-center px-4 pt-3 pb-1">
-                            <svg className="h-5 w-5 text-gray-500 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"></path></svg>
-                            <span className="text-xs text-gray-500 font-medium uppercase">LRC Record Number</span>
+                        <div>
+                            <div className="flex items-center px-4 pt-3 pb-1">
+                                <svg className="h-5 w-5 text-gray-500 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"></path></svg>
+                                <span className="text-xs text-gray-500 font-medium uppercase">LRC Record Number</span>
+                            </div>
+                            <div className="pl-5">
+                                <input
+                                    onChange={({target : {value}}) => {
+                                        setDeedDetails({
+                                            ...deedDetails,
+                                            lrcNum: value.trim()
+                                        })
+                                    }}
+                                    required
+                                    name="lrcNum"
+                                    id="lrcNum"
+                                    className="w-30 focus:ring-indigo-500 shadow-md focus:border-indigo-500 block pl-7 p-4 sm:text-sm border-gray-300 rounded-md"
+                                    placeholder="Enter LRC Record Number"
+                                />
+                            </div>
                         </div>
-                        <span className="px-10 text-md font-medium">{d.lrcNum}</span>
                     </div>
-                </div>
 
+                    <div className="flex items-center justify-center py-10">
+                        <button 
+                            type="submit"
+                            className="bg-red-500 hover:bg-red-600 focus:ring-red-200 focus:ring-4 text-white font-medium rounded-lg text-sm p-2 text-center mr-2">
+                            Register
+                        </button>
+                    </div>
+                </form>
             </div>
-        )}
         </Modal>
     )
 }

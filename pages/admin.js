@@ -1,6 +1,6 @@
 import { useAccount } from "@components/hooks/web3/useAccount"
 import { AdminLayout } from "@components/layout"
-import { PropertyCard, PropertyList, PropertyModal } from "@components/properties"
+import { PropertyCard, PropertyList, RegisterPropertyModal } from "@components/properties"
 import { useState, useEffect } from "react"
 
 export default function Admin() {
@@ -18,8 +18,6 @@ export default function Admin() {
             setProperties(data)
         })
     }, [])
-
-    console.log(!account.isAdmin)
 
     return (
         <div className="px-auto sm:px-10 md:px-10">
@@ -43,7 +41,7 @@ export default function Admin() {
             </PropertyList> }             
             {
                 selectedProperty &&
-                <PropertyModal 
+                <RegisterPropertyModal 
                     property={selectedProperty}
                     onClose = {() => setSelectedProperty(null)}
                 />
