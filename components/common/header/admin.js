@@ -15,7 +15,7 @@ export default function AdminHeader() {
             <nav className="max-w-7xl mx-auto py-3" aria-label="Global">
                 <div className="flex justify-between items-center">
                     <div>
-                        <a href="/"><img src="logo.png"/></a>
+                        <a href="/admin"><img src="logo.png"/></a>
                     </div>
                     <div className="my-auto">
                     {
@@ -27,7 +27,7 @@ export default function AdminHeader() {
                         </button> : isWeb3Loaded ? account.data ? account.isAdmin ?
                         <div>
                             <button
-                                className="bg-red-500 hover:bg-red-600 focus:ring-red-200 focus:ring-4 text-white font-medium rounded-lg text-sm ml-2 p-2 text-center">
+                                className="text-black hover:text-red-500 font-medium text-sm mx-2 p-2 text-center">
                                 Add Field Validator
                             </button>
                             <button 
@@ -36,8 +36,9 @@ export default function AdminHeader() {
                             </button>
                         </div> :
                         <div>
+                            <a href="/validated" className="text-black hover:text-red-500 font-medium text-sm mx-2 p-2 text-center">Validated Properties</a>
                             <button
-                                className="bg-red-500 hover:bg-red-600 focus:ring-red-200 focus:ring-4 text-white font-medium rounded-lg text-sm ml-2 p-2 text-center"
+                                className="text-black hover:text-red-500 font-medium text-sm mx-2 p-2 text-center"
                                 onClick={() => setShowModal(true)}>
                                 Add Property
                             </button>
@@ -47,12 +48,12 @@ export default function AdminHeader() {
                             </button>
                         </div> :
                         <button 
-                            className="bg-red-500 hover:bg-red-600 focus:ring-red-200 focus:ring-4 text-white font-medium rounded-lg text-sm ml-48 p-2 text-center"
+                            className="bg-red-500 hover:bg-red-600 focus:ring-red-200 focus:ring-4 text-white font-medium rounded-lg text-sm ml-2 p-2 text-center"
                             onClick={connect}>
                             Connect
                         </button> : 
                         <button 
-                            className="bg-red-500 hover:bg-red-600 focus:ring-red-200 focus:ring-4 text-white font-medium rounded-lg text-sm ml-48 p-2 text-center"
+                            className="bg-red-500 hover:bg-red-600 focus:ring-red-200 focus:ring-4 text-white font-medium rounded-lg text-sm ml-2 p-2 text-center"
                             onClick={() => window.open("https://metamask.io/download.html", "_blank")}>
                             Install MetaMask
                         </button> 

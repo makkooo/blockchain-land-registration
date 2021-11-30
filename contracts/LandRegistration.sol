@@ -48,7 +48,7 @@ contract LandRegistration {
         uint area, 
         string loc, 
         string locDesc,
-        address fieldValidator
+        string fieldValidator
     );
 
     event propertyRegistered(

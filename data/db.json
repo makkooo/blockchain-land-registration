@@ -116,9 +116,55 @@
     },
     {
       "lotNum": "67892",
-      "surveyNum": "68913",
+      "surveyNum": "12345",
       "area": "1",
       "location": "Tarlac",
+      "locationDesc": "13.234578, 121.156780",
+      "type": "Regular",
+      "farmStatus": "Idle",
+      "status": "Registered",
+      "image": "https://thrangra.sirv.com/Next_TypeScript_Shopify_Final.jpg",
+      "validator": "0x307d005e3C5B039254De932589e879d4acB94681",
+      "deed": [
+        {
+          "owner": "Test Owner",
+          "address": "Test Owner Address",
+          "cadNum": "456",
+          "lrcNum": "789",
+          "registeredAt": 1638266619167
+        }
+      ],
+      "createdAt": 1638266567469,
+      "id": "2tMLpvc"
+    },
+    {
+      "lotNum": "12345",
+      "surveyNum": "67890",
+      "area": "1.5",
+      "location": "Baguio",
+      "locationDesc": "13.234578, 121.156780",
+      "type": "Commercial",
+      "farmStatus": "Cultivated",
+      "status": "Registered",
+      "image": "https://thrangra.sirv.com/Next_TypeScript_Shopify_Final.jpg",
+      "validator": "0x307d005e3C5B039254De932589e879d4acB94681",
+      "deed": [
+        {
+          "owner": "Test Owner",
+          "address": "Test Owner Address",
+          "cadNum": "456",
+          "lrcNum": "789",
+          "registeredAt": 1638267076510
+        }
+      ],
+      "createdAt": 1638266724119,
+      "id": "ukUUfEw"
+    },
+    {
+      "lotNum": "12345",
+      "surveyNum": "67890",
+      "area": "1.1",
+      "location": "Baguio",
       "locationDesc": "13.234578, 121.156780",
       "type": "Commercial",
       "farmStatus": "Cultivated",
@@ -128,25 +174,8 @@
       "deed": [
         {}
       ],
-      "createdAt": 1638241046586,
-      "id": "A9Q-CWh"
-    },
-    {
-      "lotNum": "67892",
-      "surveyNum": "68913",
-      "area": "1.5",
-      "location": "Tarlac",
-      "locationDesc": "13.234578, 121.156780",
-      "type": "Regular",
-      "farmStatus": "Idle",
-      "status": "Pending",
-      "image": "https://thrangra.sirv.com/Next_TypeScript_Shopify_Final.jpg",
-      "validator": "0x307d005e3C5B039254De932589e879d4acB94681",
-      "deed": [
-        {}
-      ],
-      "createdAt": 1638241292505,
-      "id": "AKsvA6e"
+      "createdAt": 1638267119479,
+      "id": "XhOybqa"
     }
   ]
 }

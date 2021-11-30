@@ -9,10 +9,11 @@ const defaultDeedDetails = {
     registeredAt: ""
 }
 
-export default function PropertyModal({property, onClose}) {
+export default function RegisterPropertyModal({property, onClose}) {
      
     const [isOpen, setIsOpen] = useState(false)
     const [deedDetails, setDeedDetails] = useState(defaultDeedDetails)
+
     useEffect(() => {
         if(!!property) {
             setIsOpen(true)
@@ -36,7 +37,7 @@ export default function PropertyModal({property, onClose}) {
                     registeredAt: Date.now()
                 }]
             })
-        }).then(closeModal()).then(location.replace('/admin'))
+        }).then(closeModal()).then(location.reload())
     }
 
     return (

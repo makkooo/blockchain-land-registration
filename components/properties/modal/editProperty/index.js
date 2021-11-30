@@ -1,46 +1,23 @@
 import Modal from "@components/common/modal"
-import { useAccount } from "@components/hooks/web3/useAccount"
 import { useState } from "react"
 
-const defaultPropertyDetails = {
-    lotNum: "",
-    surveyNum: "",
-    area: "",
-    location: "",
-    locationDesc: "",
-    type: "",
-    farmStatus: "",
-    status: "",
-    image: "",
-    validator: "",
-    deed: "",
-    createdAt: ""
-}
-
-export default function AddPropertyModal({onClose}) {
+export default function EditPropertyModal({property, onClose}) {
 
     const [isOpen, setIsOpen] = useState(true)
-    const [propertyDetails, setPropertyDetails] = useState(defaultPropertyDetails)
-    const { account } = useAccount()
+    const [propertyDetails, setPropertyDetails] = useState(property)
 
     const closeModal = () => {
         setIsOpen(false)
-        setPropertyDetails(defaultPropertyDetails)
+        setPropertyDetails(property)
         onClose()
     }
 
     const handleSubmit = () => {
-        fetch('http://localhost:3500/properties', {
-            method: 'POST',
+        console.log(property)
+        fetch('http://localhost:3500/properties/' + property.id, {
+            method: 'PATCH',
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                ...propertyDetails,
-                status: "Pending",
-                image: "https://thrangra.sirv.com/Next_TypeScript_Shopify_Final.jpg",
-                validator: account.data,
-                deed: [{}],
-                createdAt: Date.now()
-            })
+            body: JSON.stringify(propertyDetails)
         }).then(closeModal()).then(location.reload())
     }
 
@@ -49,7 +26,7 @@ export default function AddPropertyModal({onClose}) {
             <div className="inline-block align-bottom bg-white rounded-lg text-left shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
                     <div className="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                         <h3 className="pb-3 text-lg font-bold leading-6 text-gray-900 border-b" id="modal-title">
-                            Add Property
+                            Edit Property
                         </h3>
                         <div className="absolute top-7 right-5">
                             <button onClick={closeModal}>
@@ -73,6 +50,7 @@ export default function AddPropertyModal({onClose}) {
                                         })
                                     }}
                                     required
+                                    defaultValue={property.lotNum}
                                     name="lotNum"
                                     id="lotNum"
                                     className="w-96 focus:ring-indigo-500 shadow-md focus:border-indigo-500 block pl-7 p-4 sm:text-sm border-gray-300 rounded-md"
@@ -94,6 +72,7 @@ export default function AddPropertyModal({onClose}) {
                                         })
                                     }}
                                     required
+                                    defaultValue={property.surveyNum}
                                     name="surveyNum"
                                     id="surveyNum"
                                     className="w-96 focus:ring-indigo-500 shadow-md focus:border-indigo-500 block pl-7 p-4 sm:text-sm border-gray-300 rounded-md"
@@ -115,6 +94,7 @@ export default function AddPropertyModal({onClose}) {
                                         })
                                     }}
                                     required
+                                    defaultValue={property.area}
                                     type="number" step="0.01" min="0"
                                     name="area"
                                     id="area"
@@ -137,6 +117,7 @@ export default function AddPropertyModal({onClose}) {
                                         })
                                     }}
                                     required
+                                    defaultValue={property.location}
                                     name="location"
                                     id="location"
                                     className="w-96 focus:ring-indigo-500 shadow-md focus:border-indigo-500 block pl-7 p-4 sm:text-sm border-gray-300 rounded-md"
@@ -158,6 +139,7 @@ export default function AddPropertyModal({onClose}) {
                                         })
                                     }}
                                     required
+                                    defaultValue={property.locationDesc}
                                     name="locationDesc"
                                     id="locationDesc"
                                     className="w-96 focus:ring-indigo-500 shadow-md focus:border-indigo-500 block pl-7 p-4 sm:text-sm border-gray-300 rounded-md"
@@ -180,6 +162,7 @@ export default function AddPropertyModal({onClose}) {
                                             })
                                         }}
                                         required
+                                        defaultValue={property.type}
                                         className="focus:ring-indigo-500 shadow-md focus:border-indigo-500 block p-3 sm:text-sm border-gray-300 rounded-md">\
                                         <option value="" selected disabled hidden>Choose Type of Farm</option>
                                         <option value="Regular">Regular Farm</option>
@@ -201,6 +184,7 @@ export default function AddPropertyModal({onClose}) {
                                             })
                                         }}
                                         required
+                                        defaultValue={property.farmStatus}
                                         className="focus:ring-indigo-500 shadow-md focus:border-indigo-500 block p-3 sm:text-sm border-gray-300 rounded-md">
                                         <option value="" selected disabled hidden>Choose Farm Status</option>
                                         <option value="Cultivated">Cultivated</option>
@@ -214,7 +198,7 @@ export default function AddPropertyModal({onClose}) {
                         <button
                             type="submit" 
                             className="bg-red-500 hover:bg-red-600 focus:ring-red-200 focus:ring-4 text-white font-medium rounded-lg text-sm p-2 text-center mr-2">
-                            Add Property
+                            Confirm
                         </button>
                     </div>
                 </form>

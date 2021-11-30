@@ -1,6 +1,6 @@
 import { useAccount } from "@components/hooks/web3/useAccount"
 import { AdminLayout } from "@components/layout"
-import { PropertyCard, PropertyList, RegisterPropertyModal } from "@components/properties"
+import { PropertyCard, PropertyList, PropertyModal, RegisterPropertyModal } from "@components/properties"
 import { useState, useEffect } from "react"
 
 export default function Admin() {
@@ -26,22 +26,43 @@ export default function Admin() {
             { property => 
                 <PropertyCard 
                     key = {property.id}
-                    property={property}
+                    property = {property}
                     Footer = {() => 
-                    <button 
-                        disabled={!account.isAdmin}
-                        className="disabled:opacity-50 disabled:cursor-not-allowed bg-red-500 hover:bg-red-600 focus:ring-red-200 focus:ring-4 text-white font-medium rounded-lg text-sm ml-20 p-2 text-center"
-                        onClick={() => setSelectedProperty(property)}
-                    >
-                        Register
-                    </button> 
+                        <div className="flex justify-center"> 
+                            { account.isAdmin ?
+                                <div>                                
+                                    <button 
+                                        className="bg-red-500 hover:bg-red-600 focus:ring-red-200 focus:ring-4 text-white font-medium rounded-lg text-sm p-2 mr-2 text-center"
+                                        onClick = {() => setSelectedProperty(property)}>
+                                        Register
+                                    </button>
+                                    <button 
+                                        className="bg-gray-500 hover:bg-gray-600 focus:ring-gray-200 focus:ring-4 text-white font-medium rounded-lg text-sm p-2 text-center"
+                                        onClick = {() => setSelectedProperty(property)}>
+                                        Reject
+                                    </button>
+                                </div> :
+                                <button
+                                    className="bg-red-500 hover:bg-red-600 focus:ring-red-200 focus:ring-4 text-white font-medium rounded-lg text-sm p-2 text-center"
+                                    onClick = {() => setSelectedProperty(property)}>
+                                    View Details
+                                </button>
+                            }
+                        </div>
                     }
                 />
             }     
             </PropertyList> }             
             {
+                account.isAdmin ? 
+
                 selectedProperty &&
                 <RegisterPropertyModal 
+                    property={selectedProperty}
+                    onClose = {() => setSelectedProperty(null)}
+                /> :
+                selectedProperty && 
+                <PropertyModal
                     property={selectedProperty}
                     onClose = {() => setSelectedProperty(null)}
                 />

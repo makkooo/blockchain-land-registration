@@ -2,7 +2,7 @@ export default function Card({property, Footer}) {
 
     return (
         <>
-        <div key={property.id} className="bg-white shadow-md border border-gray-200 rounded-lg max-w-sm mb-5">
+        <div key={property.id} className=" bg-white shadow-md border border-gray-200 rounded-lg max-w-sm mb-5">
             <img 
                 className="rounded-t-lg" 
                 src={property.image}

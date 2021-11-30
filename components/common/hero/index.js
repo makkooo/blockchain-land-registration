@@ -11,7 +11,7 @@ export default function Hero() {
                         Utilizing blockchain technology for a secure land registration and public record keeping.
                     </p>
                     <a href="/properties" 
-                        className=" px-10 rounded-lg bg-red-500 hover:bg-red-600 focus:ring-red-200 focus:ring-4 text-white font-bold p-4 uppercase">
+                        className=" px-10 rounded-lg bg-red-500 hover:bg-red-600 focus:ring-red-200 focus:ring-4 text-white font-bold p-4">
                         Explore Properties
                     </a>
                 </div>
