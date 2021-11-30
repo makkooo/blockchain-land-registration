@@ -8,7 +8,7 @@ export default function Properties() {
     const [properties, setProperties] = useState(null)
 
     useEffect(() => {
-        fetch(" http://localhost:3500/properties")
+        fetch("http://localhost:3500/properties?_sort=createdAt&_order=desc")
         .then(res => {
             return res.json()
         })

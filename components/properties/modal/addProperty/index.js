@@ -35,7 +35,7 @@ export default function AddPropertyModal({onClose}) {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 ...propertyDetails,
-                status: "Pending",
+                status: "Created",
                 image: "https://thrangra.sirv.com/Next_TypeScript_Shopify_Final.jpg",
                 validator: account.data,
                 deed: [{}],

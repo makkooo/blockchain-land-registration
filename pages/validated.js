@@ -10,14 +10,21 @@ export default function Admin() {
     const [properties, setProperties] = useState(null)
 
     useEffect(() => {
-        fetch("http://localhost:3500/properties?validator=" +"0x307d005e3C5B039254De932589e879d4acB94681"+ "&status=Pending")
-        .then(res => {
-            return res.json()
-        })
-        .then(data => {
-            setProperties(data)
-        })
-    }, [])
+        fetch("http://localhost:3500/properties?validator=" + account.data + "&status_ne=Registered&_sort=createdAt&_order=desc")
+        .then(res => res.json())
+        .then(result => setProperties(result))
+    })
+
+    const makeAvailable = (_property) => {
+        fetch("http://localhost:3500/properties/" + _property.id, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                ..._property,
+                status: "Pending"
+            })
+        }).then(location.reload())
+    }
 
     return (
         <div className="px-auto sm:px-10 md:px-10">
@@ -30,9 +37,27 @@ export default function Admin() {
                 Footer = {() => 
                     <div className="flex justify-center"> 
                         <button
-                            className="bg-red-500 hover:bg-red-600 focus:ring-red-200 focus:ring-4 text-white font-medium rounded-lg text-sm p-2 text-center"
+                            disabled={property.status=="Pending"}
+                            className="disabled:opacity-50 disabled:cursor-not-allowed bg-blue-500 hover:bg-blue-600 focus:ring-blue-200 focus:ring-4 text-white font-medium rounded-lg text-sm p-2 text-center"
+                            onClick = {() => makeAvailable(property)}>
+                            Make Available
+                        </button>
+                        <button
+                            className="disabled:opacity-50 disabled:cursor-not-allowed"
+                            disabled={property.status=="Pending"}
                             onClick = {() => setSelectedProperty(property)}>
-                            Edit Details
+                            <svg className="w-9 h-9 bg-red-500 hover:bg-red-600 focus:ring-red-200 focus:ring-4 text-white rounded-lg mx-2 p-1" stroke="currentColor" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                            </svg>
+                        </button>
+                        <button
+                            className="disabled:opacity-50 disabled:cursor-not-allowed"
+                            disabled={property.status=="Pending"}>
+                            <svg className="w-9 h-9 bg-red-500 hover:bg-red-600 focus:ring-red-200 focus:ring-4 text-white rounded-lg p-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                            </svg>
+                                {/* TODO onClick()
+                                onClick = {() => setSelectedProperty(property)} */}
                         </button>
                     </div>
                     }

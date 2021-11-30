@@ -176,6 +176,23 @@
       ],
       "createdAt": 1638267119479,
       "id": "XhOybqa"
+    },
+    {
+      "lotNum": "67892",
+      "surveyNum": "68913",
+      "area": "1",
+      "location": "Nueva Ecija",
+      "locationDesc": "13.234578, 121.156780",
+      "type": "Regular",
+      "farmStatus": "Idle",
+      "status": "Created",
+      "image": "https://thrangra.sirv.com/Next_TypeScript_Shopify_Final.jpg",
+      "validator": "0x307d005e3C5B039254De932589e879d4acB94681",
+      "deed": [
+        {}
+      ],
+      "createdAt": 1638288120156,
+      "id": "dT78dLc"
     }
   ]
 }

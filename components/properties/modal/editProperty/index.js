@@ -13,7 +13,6 @@ export default function EditPropertyModal({property, onClose}) {
     }
 
     const handleSubmit = () => {
-        console.log(property)
         fetch('http://localhost:3500/properties/' + property.id, {
             method: 'PATCH',
             headers: { "Content-Type": "application/json" },

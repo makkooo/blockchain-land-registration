@@ -27,23 +27,23 @@ export default function AdminHeader() {
                         </button> : isWeb3Loaded ? account.data ? account.isAdmin ?
                         <div>
                             <button
-                                className="text-black hover:text-red-500 font-medium text-sm mx-2 p-2 text-center">
+                                className="text-black hover:text-red-500 font-medium mx-3 p-2 text-center">
                                 Add Field Validator
                             </button>
                             <button 
-                                className="cursor-default bg-red-100 border-2 border-red-500 text-red-500 font-medium rounded-lg text-sm ml-2 p-2 text-center">
+                                className="cursor-default bg-red-100 border-2 border-red-500 text-red-500 font-medium rounded-lg text-sm ml-3 p-2 text-center">
                                 Connected LRA
                             </button>
                         </div> :
                         <div>
-                            <a href="/validated" className="text-black hover:text-red-500 font-medium text-sm mx-2 p-2 text-center">Validated Properties</a>
+                            <a href="/validated" className="text-black hover:text-red-500 font-medium mx-3 p-2 text-center">Validated Properties</a>
                             <button
-                                className="text-black hover:text-red-500 font-medium text-sm mx-2 p-2 text-center"
+                                className="text-black hover:text-red-500 font-medium mx-2 p-2 text-center"
                                 onClick={() => setShowModal(true)}>
                                 Add Property
                             </button>
                             <button 
-                                className="cursor-default bg-red-100 border-2 border-red-500 text-red-500 font-medium rounded-lg text-sm ml-2 p-2 text-center">
+                                className="cursor-default bg-red-100 border-2 border-red-500 text-red-500 font-medium rounded-lg text-sm ml-3 p-2 text-center">
                                 Connected
                             </button>
                         </div> :
