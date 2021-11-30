@@ -1,4 +1,3 @@
-import { getAllProperties } from "@content/properties/fetcher"
 import { PropertyCard, PropertyList, PropertyModal } from "@components/properties"
 import { BaseLayout } from "@components/layout"
 import { useEffect, useState } from "react"
@@ -46,16 +45,5 @@ export default function Properties() {
         </div>
     )
 }
-
-// export function getStaticProps() {
-  
-//     const {data} = getAllProperties()
-
-//     return {
-//         props: {
-//             properties: data
-//         }
-//     }
-// }
 
 Properties.Layout = BaseLayout
