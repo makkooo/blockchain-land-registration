@@ -2,6 +2,7 @@ import { useWeb3 } from "@components/providers"
 import { useAccount } from "@components/hooks/web3/useAccount"
 import { AddPropertyModal } from "@components/properties"
 import { useState } from "react"
+import Link from 'next/link';
 
 export default function AdminHeader() {
 
@@ -11,7 +12,6 @@ export default function AdminHeader() {
 
     return (
         <header className="bg-white px-10 border-b">
-            {account.data}
             <nav className="max-w-7xl mx-auto py-3" aria-label="Global">
                 <div className="flex justify-between items-center">
                     <div>
@@ -36,7 +36,7 @@ export default function AdminHeader() {
                             </button>
                         </div> :
                         <div>
-                            <a href="/validated" className="text-black hover:text-red-500 font-medium mx-3 p-2 text-center">Validated Properties</a>
+                            <a href="/validated" className="text-black hover:text-red-500 font-medium mx-3 p-2 text-center">Validated Properties</a> 
                             <button
                                 className="text-black hover:text-red-500 font-medium mx-2 p-2 text-center"
                                 onClick={() => setShowModal(true)}>
@@ -64,6 +64,7 @@ export default function AdminHeader() {
             {
                 showModal && 
                 <AddPropertyModal
+                    account={account.data}
                     onClose={() => setShowModal(null)}
                 />
             }

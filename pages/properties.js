@@ -9,12 +9,8 @@ export default function Properties() {
 
     useEffect(() => {
         fetch("http://localhost:3500/properties?_sort=createdAt&_order=desc")
-        .then(res => {
-            return res.json()
-        })
-        .then(data => {
-            setProperties(data)
-        })
+        .then(res => {return res.json()})
+        .then(data => {setProperties(data)})
     }, [])
 
     return (

@@ -7,10 +7,10 @@ contract LandRegistration {
         uint id;
         uint lotNum;
         uint surveyNum;
-        uint area;
+        string area;
         string loc;
         string locDesc;
-        address fieldValidator;
+        string fieldValidator;
         Deed deed;
     }
 
@@ -36,23 +36,14 @@ contract LandRegistration {
         _;
     }
 
-    modifier onlyFieldValidator() {
-        require(fieldValidators[msg.sender], "Only Field Validator can perform this operation.");
-        _;
-    }
-
-    event propertyAdded(
-        uint index, 
+    event propertyRegistered(
+        uint id, 
         uint lotNum,
         uint surveyNum, 
-        uint area, 
+        string area, 
         string loc, 
         string locDesc,
-        string fieldValidator
-    );
-
-    event propertyRegistered(
-        uint id,
+        string fieldValidator,
         string owner,
         string ownerAddress,
         uint cadNum,
@@ -68,45 +59,48 @@ contract LandRegistration {
         return true;
     }
 
-    function addProperty(
+    function registerProperty(
         uint id,
         uint lotNum,
         uint surveyNum,
-        uint area,
+        string memory area,
         string memory loc,
         string memory locDesc,
-        address fieldValidator
-    ) public onlyFieldValidator returns (bool Success) {
+        string memory fieldValidator,
+        string memory owner,
+        string memory ownerAddress,
+        uint cadNum,
+        uint lrcNum
+    ) public returns (bool Success) {
         properties[id].id = id;
         properties[id].lotNum = lotNum;
         properties[id].surveyNum = surveyNum;
         properties[id].area = area;
         properties[id].loc = loc;
         properties[id].locDesc = locDesc;
-        properties[id].fieldValidator = msg.sender;
-        availableProperties[id] = true;
-
-        emit propertyAdded(id, lotNum, surveyNum, area, loc, locDesc, fieldValidator);
-
-        return true;
-    }
-
-    function registerProperty(
-        uint id,
-        string memory owner,
-        string memory ownerAddress,
-        uint cadNum,
-        uint lrcNum
-    ) public onlyLra returns (bool Success) {
-        require(availableProperties[id], "Property does not exist!");
-        properties[id].deed = Deed (
+        properties[id].fieldValidator = fieldValidator;
+        properties[id].deed = Deed ( 
             owner,
             ownerAddress,
             cadNum,
             lrcNum
         );
 
-        emit propertyRegistered(id, owner, ownerAddress, cadNum, lrcNum);
+        availableProperties[id] = true;
+
+        emit propertyRegistered(
+            id, 
+            lotNum, 
+            surveyNum, 
+            area,
+            loc, 
+            locDesc, 
+            fieldValidator,
+            owner,
+            ownerAddress,
+            cadNum,
+            lrcNum
+        );
 
         return true;
     }
@@ -114,7 +108,7 @@ contract LandRegistration {
     function getLandDetails(uint id) public view returns (
         uint, 
         uint, 
-        uint,
+        string memory,
         string memory, 
         string memory,
         Deed memory

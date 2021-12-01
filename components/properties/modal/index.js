@@ -25,7 +25,7 @@ export default function PropertyModal({property, onClose}) {
                     <img className="w-full bg-cover" src={property.image}/>
                     <div className="absolute top-3 right-3">
                         <button onClick={closeModal}>
-                        <svg className="w-10 h-10 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <svg className="w-8 h-8 text-gray-600 hover:text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                         </button> 
                     </div>
                     <div className="absolute bottom-5 left-5">
@@ -33,10 +33,14 @@ export default function PropertyModal({property, onClose}) {
                             <span
                                 className="bg-green-100 border-2 border-green-500 text-green-500 font-medium rounded-lg text-sm p-2 text-center">
                                 Registered
-                            </span> :
+                            </span> : property.status=="Pending"?
                             <span
                                 className="bg-yellow-100 border-2 border-yellow-500 text-yellow-500 font-medium rounded-lg text-sm p-2 text-center">
                                 Pending
+                            </span> :
+                            <span
+                                className="bg-blue-100 border-2 border-blue-500 text-blue-500 font-medium rounded-lg text-sm p-2 text-center">
+                                Created
                             </span>
                         }
                     </div>

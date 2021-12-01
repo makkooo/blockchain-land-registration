@@ -1,8 +1,11 @@
+const { createContext, useContext, useEffect, useState, useMemo } = require("react");
+
 import detectEthereumProvider from "@metamask/detect-provider";
+import { loadContract } from "utils/loadContract";
+
 import Web3 from "web3";
 import { setupHooks } from "./hooks/setupHooks";
 
-const { createContext, useContext, useEffect, useState, useMemo } = require("react");
 const Web3Context = createContext(null)
 
 export default function Web3Provider({children}) {
@@ -11,7 +14,8 @@ export default function Web3Provider({children}) {
         provider: null,
         web3: null,
         contract: null,
-        isLoading: true
+        isLoading: true,
+        hooks: setupHooks()
     })
 
     useEffect(() => {
@@ -19,15 +23,17 @@ export default function Web3Provider({children}) {
             const provider = await detectEthereumProvider()
             if(provider) {
                 const web3 = new Web3(provider)
+                const contract = await loadContract("LandRegistration", web3)
                 setWeb3Api({
                     provider,
                     web3,
-                    contract: null,
-                    isLoading: false
+                    contract,
+                    isLoading: false,
+                    hooks: setupHooks(web3, provider)
                 })
             } else {
                 setWeb3Api(api => ({...api, isLoading: false}))
-                console.log("Please install MetaMask.")
+                console.error("Please install MetaMask.")
             }
         }
         loadProvider()
@@ -38,7 +44,7 @@ export default function Web3Provider({children}) {
         return {
             ...web3Api,
             isWeb3Loaded: web3 != null,
-            getHooks: () => setupHooks(web3),
+            getHooks: () => setupHooks(web3, provider),
             connect: provider ? 
             async () => { 
                 try {

@@ -1,53 +1,8 @@
 {
   "properties": [
     {
-      "id": "1410474",
       "lotNum": "12345",
-      "surveyNum": "67890",
-      "area": "1",
-      "location": "Cagayan Valley",
-      "locationDesc": "17.261446, 121.856633",
-      "type": "Commercial Farm ",
-      "farmStatus": "Cultivated",
-      "status": "Registered",
-      "image": "https://thrangra.sirv.com/Next_TypeScript_Shopify_Final.jpg",
-      "validator": "0x307d005e3C5B039254De932589e879d4acB94681",
-      "deed": [
-        {
-          "owner": "Juan Dela Cruz ",
-          "address": "Cagayan Valley",
-          "cadNum": "123",
-          "lrcNum": "456"
-        }
-      ],
-      "createdAt": ""
-    },
-    {
-      "id": "1331625",
-      "lotNum": "67890",
       "surveyNum": "12345",
-      "area": "1.5",
-      "location": "Isabela",
-      "locationDesc": "121.856633, 17.261446",
-      "type": "Regular Farm ",
-      "farmStatus": "Idle",
-      "status": "Registered",
-      "image": "https://thrangra.sirv.com/Next_TypeScript_Shopify_Final.jpg",
-      "validator": "0x307d005e3C5B039254De932589e879d4acB94681",
-      "deed": [
-        {
-          "owner": "Test Owner",
-          "address": "Test Owner Address",
-          "cadNum": "456",
-          "lrcNum": "789",
-          "registeredAt": 1638236366907
-        }
-      ],
-      "createdAt": ""
-    },
-    {
-      "lotNum": "67892",
-      "surveyNum": "68913",
       "area": "1.5",
       "location": "Tarlac",
       "locationDesc": "13.234578, 121.156780",
@@ -62,43 +17,20 @@
           "address": "Test Owner Address",
           "cadNum": "456",
           "lrcNum": "789",
-          "registeredAt": 1638241465161
+          "registeredAt": 1638338491401
         }
       ],
-      "createdAt": 1638231885590,
-      "id": "HczVyps"
+      "createdAt": 1638337889266,
+      "id": 1
     },
     {
-      "lotNum": "67893",
-      "surveyNum": "62713",
-      "area": "1",
-      "location": "Nueva Ecija",
-      "locationDesc": "121.234578, 15.156780",
-      "type": "",
-      "farmStatus": "Idle",
-      "status": "Registered",
-      "image": "https://thrangra.sirv.com/Next_TypeScript_Shopify_Final.jpg",
-      "validator": "0x307d005e3C5B039254De932589e879d4acB94681",
-      "deed": [
-        {
-          "owner": "Test Owner",
-          "address": "Test Owner Address",
-          "cadNum": "456",
-          "lrcNum": "789",
-          "registeredAt": 1638240648281
-        }
-      ],
-      "createdAt": 1638232078566,
-      "id": "8c0CaWK"
-    },
-    {
-      "lotNum": "67892",
-      "surveyNum": "68913",
-      "area": "3",
-      "location": "Nueva Ecija",
-      "locationDesc": "121.234578, 15.156780",
+      "lotNum": "13",
+      "surveyNum": "33",
+      "area": "1.5",
+      "location": "Tarlac",
+      "locationDesc": "13.234578, 121.156780",
       "type": "Regular",
-      "farmStatus": "Idle",
+      "farmStatus": "Cultivated",
       "status": "Registered",
       "image": "https://thrangra.sirv.com/Next_TypeScript_Shopify_Final.jpg",
       "validator": "0x307d005e3C5B039254De932589e879d4acB94681",
@@ -108,16 +40,39 @@
           "address": "Test Owner Address",
           "cadNum": "456",
           "lrcNum": "789",
-          "registeredAt": 1638241536770
+          "registeredAt": 1638338498705
         }
       ],
-      "createdAt": 1638240539554,
-      "id": "YdScz6b"
+      "createdAt": 1638338456541,
+      "id": 2
     },
     {
-      "lotNum": "67892",
+      "lotNum": "12345",
+      "surveyNum": "68913",
+      "area": "1.5",
+      "location": "Nueva Ecija",
+      "locationDesc": "13.234578, 121.156780",
+      "type": "Commercial",
+      "farmStatus": "Cultivated",
+      "status": "Registered",
+      "image": "https://thrangra.sirv.com/Next_TypeScript_Shopify_Final.jpg",
+      "validator": "0x307d005e3C5B039254De932589e879d4acB94681",
+      "deed": [
+        {
+          "owner": "Test Owner",
+          "address": "Test Owner Address",
+          "cadNum": "456",
+          "lrcNum": "789",
+          "registeredAt": 1638346959314
+        }
+      ],
+      "createdAt": 1638346888934,
+      "id": 3
+    },
+    {
+      "lotNum": "12345",
       "surveyNum": "12345",
-      "area": "1",
+      "area": "1.5",
       "location": "Tarlac",
       "locationDesc": "13.234578, 121.156780",
       "type": "Regular",
@@ -131,17 +86,17 @@
           "address": "Test Owner Address",
           "cadNum": "456",
           "lrcNum": "789",
-          "registeredAt": 1638266619167
+          "registeredAt": 1638348075389
         }
       ],
-      "createdAt": 1638266567469,
-      "id": "2tMLpvc"
+      "createdAt": 1638348038397,
+      "id": 4
     },
     {
       "lotNum": "12345",
-      "surveyNum": "67890",
+      "surveyNum": "12345",
       "area": "1.5",
-      "location": "Baguio",
+      "location": "Nueva Ecija",
       "locationDesc": "13.234578, 121.156780",
       "type": "Commercial",
       "farmStatus": "Cultivated",
@@ -154,45 +109,34 @@
           "address": "Test Owner Address",
           "cadNum": "456",
           "lrcNum": "789",
-          "registeredAt": 1638267076510
+          "registeredAt": 1638348626325
         }
       ],
-      "createdAt": 1638266724119,
-      "id": "ukUUfEw"
+      "createdAt": 1638348585629,
+      "id": 5
     },
     {
       "lotNum": "12345",
-      "surveyNum": "67890",
-      "area": "1.1",
-      "location": "Baguio",
-      "locationDesc": "13.234578, 121.156780",
-      "type": "Commercial",
-      "farmStatus": "Cultivated",
-      "status": "Pending",
-      "image": "https://thrangra.sirv.com/Next_TypeScript_Shopify_Final.jpg",
-      "validator": "0x307d005e3C5B039254De932589e879d4acB94681",
-      "deed": [
-        {}
-      ],
-      "createdAt": 1638267119479,
-      "id": "XhOybqa"
-    },
-    {
-      "lotNum": "67892",
-      "surveyNum": "68913",
-      "area": "1",
-      "location": "Nueva Ecija",
+      "surveyNum": "12345",
+      "area": "1.5",
+      "location": "Tarlac",
       "locationDesc": "13.234578, 121.156780",
       "type": "Regular",
-      "farmStatus": "Idle",
-      "status": "Created",
+      "farmStatus": "Cultivated",
+      "status": "Registered",
       "image": "https://thrangra.sirv.com/Next_TypeScript_Shopify_Final.jpg",
       "validator": "0x307d005e3C5B039254De932589e879d4acB94681",
       "deed": [
-        {}
+        {
+          "owner": "Test Owner",
+          "address": "Test Owner Address",
+          "cadNum": "456",
+          "lrcNum": "789",
+          "registeredAt": 1638354149890
+        }
       ],
-      "createdAt": 1638288120156,
-      "id": "dT78dLc"
+      "createdAt": 1638348715005,
+      "id": 6
     }
   ]
 }

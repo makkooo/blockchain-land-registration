@@ -17,11 +17,11 @@ const defaultPropertyDetails = {
     createdAt: ""
 }
 
-export default function AddPropertyModal({onClose}) {
+export default function AddPropertyModal({account, onClose}) {
 
     const [isOpen, setIsOpen] = useState(true)
     const [propertyDetails, setPropertyDetails] = useState(defaultPropertyDetails)
-    const { account } = useAccount()
+    //const { account } = useAccount()
 
     const closeModal = () => {
         setIsOpen(false)
@@ -30,18 +30,18 @@ export default function AddPropertyModal({onClose}) {
     }
 
     const handleSubmit = () => {
-        fetch('http://localhost:3500/properties', {
-            method: 'POST',
+        fetch("http://localhost:3500/properties", {
+            method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 ...propertyDetails,
                 status: "Created",
                 image: "https://thrangra.sirv.com/Next_TypeScript_Shopify_Final.jpg",
-                validator: account.data,
+                validator: account,
                 deed: [{}],
                 createdAt: Date.now()
             })
-        }).then(closeModal()).then(location.reload())
+        }).then(closeModal())
     }
 
     return (
@@ -57,7 +57,7 @@ export default function AddPropertyModal({onClose}) {
                             </button> 
                         </div>
                     </div> 
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={account && handleSubmit}>
                     <div class="px-10">
                         <div> 
                             <div className="flex items-center px-4 pt-3 pb-1">

@@ -1,12 +1,14 @@
 import { useAccount } from "@components/hooks/web3/useAccount"
 import { AdminLayout } from "@components/layout"
 import { PropertyCard, PropertyList, PropertyModal, RegisterPropertyModal } from "@components/properties"
+import { useWeb3 } from "@components/providers"
 import { useState, useEffect } from "react"
 
 export default function Admin() {
 
     const { account } = useAccount()
     const [selectedProperty, setSelectedProperty] = useState(null)
+    const [registerProperty, setRegisterProperty] = useState(null)
     const [properties, setProperties] = useState(null)
 
     useEffect(() => {
@@ -14,9 +16,8 @@ export default function Admin() {
         .then(res => {
             return res.json()
         })
-        .then(data => {
-            setProperties(data)
-        })
+        .then(data => 
+            {setProperties(data)})
     }, [])
 
     return (
@@ -33,7 +34,7 @@ export default function Admin() {
                                 <div>                                
                                     <button 
                                         className="bg-red-500 hover:bg-red-600 focus:ring-red-200 focus:ring-4 text-white font-medium rounded-lg text-sm p-2 mr-2 text-center"
-                                        onClick = {() => setSelectedProperty(property)}>
+                                        onClick = {() => setRegisterProperty(property)}>
                                         Register
                                     </button>
                                     <button 
@@ -56,10 +57,10 @@ export default function Admin() {
             {
                 account.isAdmin ? 
 
-                selectedProperty &&
-                <RegisterPropertyModal 
-                    property={selectedProperty}
-                    onClose = {() => setSelectedProperty(null)}
+                registerProperty &&
+                <RegisterPropertyModal
+                    property={registerProperty}
+                    onClose = {() => setRegisterProperty(null)}
                 /> :
                 selectedProperty && 
                 <PropertyModal

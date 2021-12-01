@@ -17,7 +17,7 @@ export default function EditPropertyModal({property, onClose}) {
             method: 'PATCH',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(propertyDetails)
-        }).then(closeModal()).then(location.reload())
+        }).then(closeModal())
     }
 
     return (

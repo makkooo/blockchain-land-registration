@@ -1,4 +1,6 @@
 import Modal from "@components/common/modal";
+import { useAccount } from "@components/hooks/web3/useAccount";
+import { useWeb3 } from "@components/providers";
 import { useEffect, useState } from "react";
 
 const defaultDeedDetails = {
@@ -11,6 +13,8 @@ const defaultDeedDetails = {
 
 export default function RegisterPropertyModal({property, onClose}) {
      
+    const { account } = useAccount()
+    const { contract } = useWeb3()
     const [isOpen, setIsOpen] = useState(false)
     const [deedDetails, setDeedDetails] = useState(defaultDeedDetails)
 
@@ -24,8 +28,8 @@ export default function RegisterPropertyModal({property, onClose}) {
         setIsOpen(false)
         onClose()
     }
-
-    const handleSubmit = () => {
+    
+    const handleSubmit = async () => {
         fetch('http://localhost:3500/properties/' + property.id, {
             method: 'PATCH',
             headers: { "Content-Type": "application/json" },
@@ -37,7 +41,24 @@ export default function RegisterPropertyModal({property, onClose}) {
                     registeredAt: Date.now()
                 }]
             })
-        }).then(closeModal()).then(location.reload())
+        }).then(closeModal())
+        try {
+            await contract.methods.registerProperty(
+                Number(property.id),
+                Number(property.lotNum),
+                Number(property.surveyNum),
+                String(property.area),
+                String(property.location),
+                String(property.locationDesc),
+                String(property.validator),
+                String(deedDetails.owner),
+                String(deedDetails.address),
+                Number(deedDetails.cadNum),
+                Number(deedDetails.lrcNum)
+            ).send({from: account.data})
+        } catch {
+            console.log("Property registration has failed. Please try again.")
+        }
     }
 
     return (
@@ -48,8 +69,24 @@ export default function RegisterPropertyModal({property, onClose}) {
                     <img className="w-full bg-cover" src={property.image}/>
                     <div className="absolute top-3 right-3">
                         <button onClick={closeModal}>
-                        <svg className="w-10 h-10 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <svg className="w-8 h-8 text-gray-600 hover:text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                         </button> 
+                    </div>
+                    <div className="absolute bottom-5 left-5">
+                        { property.status=="Registered" ?
+                            <span
+                                className="bg-green-100 border-2 border-green-500 text-green-500 font-medium rounded-lg text-sm p-2 text-center">
+                                Registered
+                            </span> : property.status=="Pending"?
+                            <span
+                                className="bg-yellow-100 border-2 border-yellow-500 text-yellow-500 font-medium rounded-lg text-sm p-2 text-center">
+                                Pending
+                            </span> :
+                            <span
+                                className="bg-blue-100 border-2 border-blue-500 text-blue-500 font-medium rounded-lg text-sm p-2 text-center">
+                                Created
+                            </span>
+                        }
                     </div>
                 </div>
 
