@@ -3,13 +3,29 @@ import { AdminLayout } from "@components/layout"
 import { EditPropertyModal, PropertyCard, PropertyList } from "@components/properties"
 import { useState, useEffect } from "react"
 
+/**
+ * Displays valiadted properties
+ * 
+ * @returns Validated properties page
+ */
 export default function Validated() {
     
+    // Sets selected property
     const [selectedProperty, setSelectedProperty] = useState(null)
+
+    // Sets properties data
     const [properties, setProperties] = useState(null)
+
+    // MetaMask account 
     const {account} = useAccount()
+
+    // Sets validator constant to MetaMask account address
     const validator = account.data
 
+    /**
+     * Fetch properties from database where property 
+     * validator == current MetaMask account address
+     */
     useEffect(() => {
         fetch("http://localhost:3500/properties?validator=" + validator + "&status_ne=Registered&_sort=createdAt&_order=desc")
         .then(res => {
@@ -19,6 +35,12 @@ export default function Validated() {
             {setProperties(data)})
     }, [validator])
 
+    /**
+     * Change the status of the selected property 
+     * from "Created" to "Pending"
+     * 
+     * @param   {object}    _property Selected property
+     */
     const handleMakeAvailable = (_property) => {
         fetch("http://localhost:3500/properties/" + _property.id, {
             method: "PATCH",
@@ -30,6 +52,11 @@ export default function Validated() {
         }).then(location.reload())
     }
 
+    /**
+     * Deletes the selected property from the database
+     * 
+     * @param {object} _property 
+     */
     const handleDetele = (_property) => {
         fetch("http://localhost:3500/properties/" + _property.id, {
             method: "DELETE"
@@ -39,12 +66,20 @@ export default function Validated() {
     return (
         <div className="px-auto sm:px-10 md:px-10">
             <h2 className="font-bold text-3xl py-6">Validated Properties</h2>
+            {/* Checks if properties!=null and renders properties list */}
             {properties && <PropertyList properties = {properties}>
+            
+            {/* Maps properties array to individual property */}  
             { property => 
                 <PropertyCard
                 key = {property.id}
                 property = {property}
                 Footer = {() => 
+                    /**
+                     * If property status==Pending, prevent the 
+                     * Field Validator from editing and deleting
+                     * property by disabling buttons
+                     */
                     <div className="flex justify-center"> 
                         <button
                             disabled={property.status=="Pending"}
@@ -74,6 +109,12 @@ export default function Validated() {
             }     
             </PropertyList> }     
             {
+                /**
+                 * Renders the modal but sets the visibility
+                 * to false. If selectedProperty!=null, set modal
+                 * visibility to true and pass property prop 
+                 * to component.
+                 */ 
                 selectedProperty && 
                 <EditPropertyModal 
                     property = {selectedProperty}
@@ -84,4 +125,5 @@ export default function Validated() {
     )
 }
 
+// Sets Validated page layout to Admin layout
 Validated.Layout = AdminLayout

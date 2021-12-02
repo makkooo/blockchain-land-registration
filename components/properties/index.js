@@ -1,3 +1,6 @@
+/**
+ * Re-exports the functions from "/components/properties".
+ */
 export { default as PropertyList } from "./list"
 export { default as PropertyCard } from "./card" 
 export { default as PropertyModal } from "./modal"

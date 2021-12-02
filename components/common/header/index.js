@@ -1,3 +1,9 @@
+/**
+ * Header component of the App.
+ *    
+ * @returns     component   Returns the Header component
+ */
+
 export default function Header() {
 
     return (
@@ -5,19 +11,23 @@ export default function Header() {
             <nav className="max-w-7xl mx-auto py-3" aria-label="Global">
                 <div className="flex justify-between items-center">
                     <div className="flex items-center">
+                        {/* Brand Logo */}
                         <a href="/" 
                             className="mr-3">
                             <img src="logo.png"/>
                         </a>
+                        {/* Home Link */}
                         <a href="/"
                             className="text-black hover:text-red-500 font-medium mx-3 p-2 text-center">
                             Home
                         </a>
+                        {/* Properties Link */}
                         <a href="/properties"
                             className="text-black hover:text-red-500 font-medium mx-3 p-2 text-center">
                             Explore Properties
                         </a>
                     </div>
+                    {/* GitHub Logo */}
                     <div className="flex items-center">
                         <a href="https://github.com/makkooo/blockchain-land-registration">
                             <svg className="h-7 w-7"  viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

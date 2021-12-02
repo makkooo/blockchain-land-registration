@@ -1,7 +1,11 @@
 import { AdminHeader, Footer } from "@components/common"
-import { useAccount } from "@components/hooks/web3/useAccount"
 import { Web3Provider } from "@components/providers"
 
+/**
+ * 
+ * @param   {Component} children children components 
+ * @returns Layout      Returns admin layout
+ */
 export default function AdminLayout({children}) {
 
     return (

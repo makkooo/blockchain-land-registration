@@ -2,11 +2,20 @@ import { PropertyCard, PropertyList, PropertyModal } from "@components/propertie
 import { BaseLayout } from "@components/layout"
 import { useEffect, useState } from "react"
 
+/**
+ * Displays all properties.
+ * 
+ * @returns Properties page
+ */
 export default function Properties() {
 
+    // Sets selected property
     const [selectedProperty, setSelectedProperty] = useState(null)
+
+    // Sets properties data
     const [properties, setProperties] = useState(null)
 
+    // Fetch all properties from the database
     useEffect(() => {
         fetch("http://localhost:3500/properties?_sort=createdAt&_order=desc")
         .then(res => {return res.json()})
@@ -16,7 +25,10 @@ export default function Properties() {
     return (
         <div className="px-auto sm:px-10 md:px-10">
             <h2 className="font-bold text-3xl py-6">Latest properties</h2>
+            {/* Checks if properties!=null and renders properties list */}
             {properties && <PropertyList properties = {properties}>
+
+            {/* Maps properties array to individual property */}    
             { property => 
                 <PropertyCard 
                     key = {property.id}
@@ -32,6 +44,12 @@ export default function Properties() {
             }     
             </PropertyList> }             
             {
+                /**
+                 * Renders the modal but sets the visibility
+                 * to false. If selectedProperty!=null, set modal
+                 * visibility to true and pass property prop 
+                 * to component.
+                 */ 
                 selectedProperty &&
                 <PropertyModal 
                     property={selectedProperty}
@@ -42,4 +60,5 @@ export default function Properties() {
     )
 }
 
+// Sets Propeties page layout to Base Layout
 Properties.Layout = BaseLayout

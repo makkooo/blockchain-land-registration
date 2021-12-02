@@ -1,6 +1,11 @@
 import { Header, Footer } from "@components/common"
 import { Web3Provider } from "@components/providers"
 
+/**
+ * 
+ * @param   {Component} children children components 
+ * @returns Layout      Returns base layout
+ */
 export default function BaseLayout({children}) {
 
     return (

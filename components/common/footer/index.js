@@ -1,3 +1,9 @@
+/**
+ * Footer component of the App.
+ *    
+ * @returns     component   Returns the Footer component
+ */
+
 export default function Footer() {
     
     return (
