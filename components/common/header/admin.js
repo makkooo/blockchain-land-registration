@@ -1,22 +1,36 @@
+import { useWeb3 } from "@components/providers"
+import { useAccount } from "@components/hooks/web3/useAccount"
+import { AddFieldValidatorModal, AddPropertyModal } from "@components/properties"
+import { useState, useEffect } from "react"
+
 /**
  * Admin header component of the App.
  *    
  * @returns     component   Returns the Admin header component
  */
-
-import { useWeb3 } from "@components/providers"
-import { useAccount } from "@components/hooks/web3/useAccount"
-import { AddPropertyModal } from "@components/properties"
-import { useState } from "react"
-
 export default function AdminHeader() {
 
     // Set modal visibility state
-    const [showModal, setShowModal] = useState(null)
+    const [showAddPropModal, setShowAddPropModal] = useState(null)
+
+    const [showAddFvModal, setShowAddFvModal] = useState(null)
+
     // Web3 component constants
-    const { connect, isLoading, isWeb3Loaded } = useWeb3()
+    const { connect, isLoading, isWeb3Loaded, contract } = useWeb3()
+
     // MetaMask account constant
     const { account } = useAccount()
+
+    const [isAuthorized, setIsAuthorized] = useState(false)
+
+    useEffect(async () => {
+        try {
+            account.isAdmin ? setIsAuthorized(true) :
+            setIsAuthorized(await contract.methods.isFieldValidator(account.data).call())
+        } catch {
+            console.log("isFieldValidator() failed.")
+        }
+    }, [account.data])
 
     return (
         <header className="bg-white px-10 border-b">
@@ -36,26 +50,27 @@ export default function AdminHeader() {
                         </button> : 
 
                         // If Web3 is loaded, check for MetaMask account data
-                        isWeb3Loaded ? account.data ? account.isAdmin ?
+                        isWeb3Loaded ? account.data ? isAuthorized? account.isAdmin ?
 
                         // Account is LRA
                         <div>
                             <button
-                                className="text-black hover:text-red-500 font-medium mx-3 p-2 text-center">
+                                className="text-black hover:text-red-500 font-medium mx-3 p-2 text-center"
+                                onClick={() => setShowAddFvModal(true)}>
                                 Add Field Validator
                             </button>
                             <button 
                                 className="cursor-default bg-red-100 border-2 border-red-500 text-red-500 font-medium rounded-lg text-sm ml-3 p-2 text-center">
                                 Connected LRA
                             </button>
-                        </div> :
+                        </div> : 
 
                         // Account is a Field Validator
                         <div>
                             <a href="/validated" className="text-black hover:text-red-500 font-medium mx-3 p-2 text-center">Validated Properties</a> 
                             <button
                                 className="text-black hover:text-red-500 font-medium mx-2 p-2 text-center"
-                                onClick={() => setShowModal(true)}>
+                                onClick={() => setShowAddPropModal(true)}>
                                 Add Property
                             </button>
                             <button 
@@ -63,6 +78,11 @@ export default function AdminHeader() {
                                 Connected
                             </button>
                         </div> :
+
+                        <button 
+                            className="cursor-default bg-red-100 border-2 border-red-500 text-red-500 font-medium rounded-lg text-sm ml-3 p-2 text-center">
+                            Unauthorized
+                        </button> : 
 
                         // Account is not connected to the App
                         <button 
@@ -88,10 +108,17 @@ export default function AdminHeader() {
                  * visibility to true and pass account prop 
                  * to component.
                  */ 
-                showModal && 
+                showAddPropModal && 
                 <AddPropertyModal
                     account={account.data}
-                    onClose={() => setShowModal(null)}
+                    onClose={() => setShowAddPropModal(null)}
+                />
+            }
+            {
+                showAddFvModal && 
+                <AddFieldValidatorModal
+                    account={account}
+                    onClose={() => setShowAddFvModal(null)}
                 />
             }
         </header>

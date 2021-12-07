@@ -1,5 +1,7 @@
 import Modal from "@components/common/modal"
 import { useState } from "react"
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 /**
  * 
@@ -15,6 +17,8 @@ export default function EditPropertyModal({property, onClose}) {
     // Sets property details
     const [propertyDetails, setPropertyDetails] = useState(property)
 
+    const EditSwal = withReactContent(Swal)
+
     /**
      * Handles close modal event and sets
      * the property details to default
@@ -24,6 +28,7 @@ export default function EditPropertyModal({property, onClose}) {
         setIsOpen(false)
         setPropertyDetails(property)
         onClose()
+        location.reload()
     }
 
     /**
@@ -31,12 +36,22 @@ export default function EditPropertyModal({property, onClose}) {
      * property information from the database 
      * then close the modal
      */
-    const handleSubmit = () => {
+    const handleSubmit = async (e) => {
+        e.preventDefault()
         fetch('http://localhost:3500/properties/' + property.id, {
             method: 'PATCH',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(propertyDetails)
-        }).then(closeModal())
+        })
+        await EditSwal.fire({
+            title: <h3 className="pb-3 text-lg font-bold leading-6 text-gray-900 border-b">Property details updated!</h3>,
+            confirmButtonColor: "#d33",
+            icon: "success"
+        }).then((result) => {
+            if(result.isConfirmed) {
+                closeModal()
+            }
+        })
     }
 
     return (

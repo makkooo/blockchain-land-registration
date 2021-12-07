@@ -107,7 +107,7 @@ contract LandRegistration {
      * @param   _address    Address of the Field Validator
      * @return  Success     Returns a boolean value if operation is successful
      */
-    function addFieldValidator(address _address) public onlyLra returns (bool Success) {
+    function addFieldValidator(address _address) public returns (bool Success) {
         fieldValidators[_address] = true;
         return true;
     }
@@ -202,5 +202,9 @@ contract LandRegistration {
             properties[id].locDesc,
             properties[id].deed
         );
+    }
+
+    function isFieldValidator(address _address) public view returns (bool) {
+        return fieldValidators[_address];
     }
 }

@@ -132,11 +132,28 @@
           "address": "Test Owner Address",
           "cadNum": "456",
           "lrcNum": "789",
-          "registeredAt": 1638354149890
+          "registeredAt": 1638857617247
         }
       ],
       "createdAt": 1638348715005,
       "id": 6
+    },
+    {
+      "lotNum": "12345",
+      "surveyNum": "12345",
+      "area": "1",
+      "location": "Tarlac",
+      "locationDesc": "13.234578, 121.156780",
+      "type": "Commercial",
+      "farmStatus": "Cultivated",
+      "status": "Pending",
+      "image": "https://thrangra.sirv.com/Next_TypeScript_Shopify_Final.jpg",
+      "validator": "0x307d005e3C5B039254De932589e879d4acB94681",
+      "deed": [
+        {}
+      ],
+      "createdAt": 1638890434161,
+      "id": 7
     }
   ]
 }

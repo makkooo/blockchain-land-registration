@@ -1,3 +1,4 @@
+import { useWeb3 } from "@components/providers"
 import { useEffect } from "react"
 import useSWR from "swr"
 
@@ -5,7 +6,7 @@ const adminAddress = {
     "0x49cA365BD02D83c7a4d43AE99C110a11f99Ce182": true
 }
 
-export const handler =  (web3, provider) => () => {
+export const handler = (web3, provider) => () => {
 
     const { data, mutate, ...rest } = useSWR(() => 
         web3 ? "web3/accounts" : null,
@@ -20,11 +21,6 @@ export const handler =  (web3, provider) => () => {
             return account
         }
     )
-
-    // useEffect(() => {
-    //     provider && 
-    //     provider.on("accountsChanged", accounts => mutate(accounts[0] ?? null))
-    // }, [provider])
 
     useEffect(() => {
         const mutator = accounts => mutate(accounts[0] ?? null)

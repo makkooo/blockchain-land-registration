@@ -1,5 +1,7 @@
 import Modal from "@components/common/modal"
 import { useState } from "react"
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 /**
  * Sets the default property object
@@ -34,6 +36,8 @@ export default function AddPropertyModal({account, onClose}) {
     // Sets property details
     const [propertyDetails, setPropertyDetails] = useState(defaultPropertyDetails)
 
+    const AddSwal = withReactContent(Swal)
+
     /**
      * Handles close modal event and sets
      * the property details to default
@@ -43,6 +47,7 @@ export default function AddPropertyModal({account, onClose}) {
         setIsOpen(false)
         setPropertyDetails(defaultPropertyDetails)
         onClose()
+        location.reload()
     }
 
     /**
@@ -50,7 +55,8 @@ export default function AddPropertyModal({account, onClose}) {
      * the property to the database then
      * close the modal
      */
-    const handleSubmit = () => {
+    const handleSubmit = async (e) => {
+        e.preventDefault()
         fetch("http://localhost:3500/properties", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -62,24 +68,33 @@ export default function AddPropertyModal({account, onClose}) {
                 deed: [{}],
                 createdAt: Date.now()
             })
-        }).then(closeModal())
+        })
+        await AddSwal.fire({
+            title: <h3 className="pb-3 text-lg font-bold leading-6 text-gray-900 border-b">Property added!</h3>,
+            confirmButtonColor: "#d33",
+            icon: "success"
+        }).then((result) => {
+            if(result.isConfirmed) {
+                closeModal()
+            }
+        })
     }
 
     return (
         <Modal isOpen={isOpen}>
             <div className="inline-block align-bottom bg-white rounded-lg text-left shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-                    <div className="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                        <h3 className="pb-3 text-lg font-bold leading-6 text-gray-900 border-b" id="modal-title">
-                            Add Property
-                        </h3>
-                        
-                        <div className="absolute top-7 right-5">
-                            {/* Modal Close Button */}
-                            <button onClick={closeModal}>
-                            <svg className="w-5 h-5 text-gray-600 hover:text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                            </button> 
-                        </div>
-                    </div> 
+                <div className="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <h3 className="pb-3 text-lg font-bold leading-6 text-gray-900 border-b" id="modal-title">
+                        Add Property
+                    </h3>
+                    
+                    <div className="absolute top-7 right-5">
+                        {/* Modal Close Button */}
+                        <button onClick={closeModal}>
+                        <svg className="w-5 h-5 text-gray-600 hover:text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                        </button> 
+                    </div>
+                </div> 
                 <form onSubmit={account && handleSubmit}>
                     <div class="px-10">
                         {/* Property Lot Number */}

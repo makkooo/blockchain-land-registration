@@ -1,6 +1,7 @@
 import { useAccount } from "@components/hooks/web3/useAccount"
 import { AdminLayout } from "@components/layout"
 import { PropertyCard, PropertyList, PropertyModal, RegisterPropertyModal } from "@components/properties"
+import { useWeb3 } from "@components/providers"
 import { useState, useEffect } from "react"
 
 /**
@@ -13,6 +14,8 @@ export default function Admin() {
     // MetaMask account 
     const { account } = useAccount()
 
+    const { contract } = useWeb3()
+
     // Sets selected property
     const [selectedProperty, setSelectedProperty] = useState(null)
 
@@ -21,6 +24,17 @@ export default function Admin() {
 
     // Sets properties data
     const [properties, setProperties] = useState(null)
+
+    const [isAuthorized, setIsAuthorized] = useState(false)
+
+    useEffect(async () => {
+        try {
+            account.isAdmin ? setIsAuthorized(true) :
+            setIsAuthorized(await contract.methods.isFieldValidator(account.data).call())
+        } catch {
+            console.log("isFieldValidator() failed.")
+        }
+    }, [account.data])
 
     /**
      * Fetch Pending properties from the database
@@ -36,6 +50,8 @@ export default function Admin() {
     }, [])
 
     return (
+        <>
+        { isAuthorized ?
         <div className="px-auto sm:px-10 md:px-10">
             <h2 className="font-bold text-3xl py-6">Pending properties</h2>
             {/* Checks if properties!=null and renders properties list */}
@@ -104,7 +120,10 @@ export default function Admin() {
                     onClose = {() => setSelectedProperty(null)}
                 />
             }
-        </div>
+        </div> :
+        <h2>Error 401 Unauthorized Access</h2>
+        }
+        </>
     )
 }
 

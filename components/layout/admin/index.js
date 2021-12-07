@@ -1,5 +1,6 @@
 import { AdminHeader, Footer } from "@components/common"
 import { Web3Provider } from "@components/providers"
+import { useState } from "react"
 
 /**
  * 
@@ -7,6 +8,8 @@ import { Web3Provider } from "@components/providers"
  * @returns Layout      Returns admin layout
  */
 export default function AdminLayout({children}) {
+
+    const [isFieldValidator, setIsFieldValidator] = useState(false) 
 
     return (
 
