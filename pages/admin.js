@@ -121,7 +121,14 @@ export default function Admin() {
                 />
             }
         </div> :
-        <h2>Error 401 Unauthorized Access</h2>
+        <div className="mt-10">
+            <div className="block text-center">
+                <h1 className="leading-none font-black opacity-50 text-3xl uppercase">Error 401: Unauthorized Access</h1>
+            </div>
+            <div>
+                <img src="401-media.png" alt="Farmer"/>
+            </div>
+        </div>
         }
         </>
     )
