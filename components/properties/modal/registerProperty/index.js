@@ -56,20 +56,8 @@ export default function RegisterPropertyModal({property, onClose}) {
      * adds the deed details to existing property
      * from the database
      */
-    const handleSubmit = async () => {
-        fetch('http://localhost:3500/properties/' + property.id, {
-            method: 'PATCH',
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                ...property,
-                status: "Registered",
-                deed: [{
-                    ...deedDetails,
-                    registeredAt: Date.now()
-                }]
-            })
-        }).then(closeModal())
-
+    const handleSubmit = async (e) => {
+        e.preventDefault()
         /**
          * Access the smart contract function
          * registerProperty() and adds the property
@@ -102,9 +90,23 @@ export default function RegisterPropertyModal({property, onClose}) {
                 Number(deedDetails.cadNum),
                 Number(deedDetails.lrcNum)
             ).send({from: account.data})
+
+            await fetch(`http://localhost:3500/properties/${property.id}`, {
+                method: 'PATCH',
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    ...property,
+                    status: "Registered",
+                    deed: [{
+                        ...deedDetails,
+                        registeredAt: Date.now()
+                    }]
+                })
+            }).then(closeModal()).then(location.reload())
         } catch {
             // If transaction failed
             console.log("Property registration has failed. Please try again.")
+            closeModal()
         }
     }
 

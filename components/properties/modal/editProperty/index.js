@@ -17,7 +17,7 @@ export default function EditPropertyModal({property, onClose}) {
     // Sets property details
     const [propertyDetails, setPropertyDetails] = useState(property)
 
-    const EditSwal = withReactContent(Swal)
+    const editSwal = withReactContent(Swal)
 
     /**
      * Handles close modal event and sets
@@ -38,12 +38,16 @@ export default function EditPropertyModal({property, onClose}) {
      */
     const handleSubmit = async (e) => {
         e.preventDefault()
-        fetch('http://localhost:3500/properties/' + property.id, {
+        const status = (propertyDetails.status=="Rejected") ? "Pending" : "Created"
+        fetch(`http://localhost:3500/properties/${property.id}`, {
             method: 'PATCH',
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(propertyDetails)
+            body: JSON.stringify({
+                ...propertyDetails,
+                status: status
+            })
         })
-        await EditSwal.fire({
+        await editSwal.fire({
             title: <h3 className="pb-3 text-lg font-bold leading-6 text-gray-900 border-b">Property details updated!</h3>,
             confirmButtonColor: "#d33",
             icon: "success"

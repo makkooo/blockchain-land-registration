@@ -16,7 +16,7 @@ export default function Validated() {
     const [selectedProperty, setSelectedProperty] = useState(null)
 
     // Sets properties data
-    const [properties, setProperties] = useState(null)
+    const [properties, setProperties] = useState()
 
     // MetaMask account 
     const {account} = useAccount()
@@ -24,15 +24,16 @@ export default function Validated() {
     // Sets validator constant to MetaMask account address
     const validator = account.data
 
-    const MakeAvailableSwal = withReactContent(Swal)
-    const DeleteSwal = withReactContent(Swal)
+    const makeAvailableSwal = withReactContent(Swal)
+    const deleteSwal = withReactContent(Swal)
+    const rejectionMessageSwal = withReactContent(Swal)
 
     /**
      * Fetch properties from database where property 
      * validator == current MetaMask account address
      */
     useEffect(() => {
-        fetch("http://localhost:3500/properties?validator=" + validator + "&status_ne=Registered&_sort=createdAt&_order=desc")
+        fetch(`http://localhost:3500/properties?validator=${validator}&status_ne=Registered&_sort=createdAt&_order=desc`)
         .then(res => {
             return res.json()
         })
@@ -48,7 +49,7 @@ export default function Validated() {
      */
     const handleMakeAvailable = async (e, property) => {
         e.preventDefault()
-        fetch("http://localhost:3500/properties/" + property.id, {
+        fetch(`http://localhost:3500/properties/${property.id}`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -56,11 +57,12 @@ export default function Validated() {
                 status: "Pending"
             })
         })
-        await MakeAvailableSwal.fire({
+        await makeAvailableSwal.fire({
             title: <h3 className="pb-3 text-lg font-bold leading-6 text-gray-900 border-b">Property marked as available!</h3>,
             confirmButtonColor: "#d33",
             icon: "success"
-        }).then((result) => {
+        })
+        .then((result) => {
             if(result.isConfirmed) {
                 location.reload()
             }
@@ -74,7 +76,7 @@ export default function Validated() {
      */
     const handleDetele = async (e, property) => {
         e.preventDefault()
-        DeleteSwal.fire({
+        await deleteSwal.fire({
             title: <h3 className="pb-3 text-lg font-bold leading-6 text-gray-900 border-b">Are you sure you want to delete property?</h3>,
             icon: "warning",
             showCancelButton: true,
@@ -86,7 +88,7 @@ export default function Validated() {
                 fetch("http://localhost:3500/properties/" + property.id, {
                     method: "DELETE"
                 })
-                DeleteSwal.fire({
+                deleteSwal.fire({
                     title: <h3 className="pb-3 text-lg font-bold leading-6 text-gray-900 border-b">Property deleted!</h3>,
                     confirmButtonColor: "#d33",
                     icon: "success"
@@ -96,6 +98,16 @@ export default function Validated() {
                     }
                 })
             }
+        })
+    }
+
+    const viewRejectionMessage = async (property) => {
+        await rejectionMessageSwal.fire({
+            title: <h3 className="pb-3 text-lg font-bold leading-6 text-gray-900 border-b">Rejection Message</h3>,
+            html: <h2 className="py-5 text-2xl font-regular italic leading-6 text-gray-900">{property.rejectionMessage}</h2>,
+            confirmButtonText: "Done",
+            confirmButtonColor: "#d33",
+            icon: "warning"
         })
     }
 
@@ -116,13 +128,21 @@ export default function Validated() {
                      * Field Validator from editing and deleting
                      * property by disabling buttons
                      */
-                    <div className="flex justify-center"> 
+                    <div className="flex justify-center">
+                        { property.status=="Created" ?
                         <button
                             disabled={property.status=="Pending"}
                             className="disabled:opacity-50 disabled:cursor-not-allowed bg-blue-500 hover:bg-blue-600 focus:ring-blue-200 focus:ring-4 text-white font-medium rounded-lg text-sm p-2 text-center"
                             onClick = {(e) => handleMakeAvailable(e, property)}>
                             Make Available
+                        </button> :
+                        <button
+                            disabled={property.status=="Pending"}
+                            className="disabled:opacity-50 disabled:cursor-not-allowed bg-blue-500 hover:bg-blue-600 focus:ring-blue-200 focus:ring-4 text-white font-medium rounded-lg text-sm p-2 text-center"
+                            onClick = {(e) => viewRejectionMessage(property)}>
+                            View Details
                         </button>
+                        }
                         <button
                             className="disabled:opacity-50 disabled:cursor-not-allowed"
                             disabled={property.status=="Pending"}

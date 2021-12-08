@@ -47,7 +47,6 @@ export default function AddPropertyModal({account, onClose}) {
         setIsOpen(false)
         setPropertyDetails(defaultPropertyDetails)
         onClose()
-        location.reload()
     }
 
     /**

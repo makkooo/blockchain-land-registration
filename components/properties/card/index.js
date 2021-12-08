@@ -22,6 +22,13 @@ export default function Card({property, Footer}) {
                             Registered
                         </span> :
 
+                        // Property is rejected
+                        property.status=="Rejected" ?
+                        <span
+                            className="bg-red-100 border-2 border-red-500 text-red-500 font-medium rounded-lg text-xs p-1 text-center">
+                            Rejected
+                        </span> :
+
                         // Property is pending 
                         property.status=="Pending" ?
                         <span

@@ -17,7 +17,7 @@ export default function Properties() {
 
     // Fetch all properties from the database
     useEffect(() => {
-        fetch("http://localhost:3500/properties?_sort=createdAt&_order=desc")
+        fetch("http://localhost:3500/properties?status_ne=Rejected&_sort=createdAt&_order=desc")
         .then(res => {return res.json()})
         .then(data => {setProperties(data)})
     }, [])

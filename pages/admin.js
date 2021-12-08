@@ -3,6 +3,8 @@ import { AdminLayout } from "@components/layout"
 import { PropertyCard, PropertyList, PropertyModal, RegisterPropertyModal } from "@components/properties"
 import { useWeb3 } from "@components/providers"
 import { useState, useEffect } from "react"
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 /**
  * Admin page.
@@ -27,6 +29,8 @@ export default function Admin() {
 
     const [isAuthorized, setIsAuthorized] = useState(false)
 
+    const rejectSwal = withReactContent(Swal)
+
     useEffect(async () => {
         try {
             account.isAdmin ? setIsAuthorized(true) :
@@ -41,13 +45,41 @@ export default function Admin() {
      * and sets the properties object
      */
     useEffect(() => {
-        fetch(" http://localhost:3500/properties?status=Pending")
+        fetch("http://localhost:3500/properties?status=Pending")
         .then(res => {
             return res.json()
         })
         .then(data => 
             {setProperties(data)})
     }, [])
+
+    const handleReject = async (property) => {
+        const { value: text } = await rejectSwal.fire({
+            input: "textarea",
+            title: <h3 className="pb-3 text-lg font-bold leading-6 text-gray-900 border-b">Reject Property</h3>,
+            inputPlaceholder: "Type rejection message here...",
+            showCancelButton: true,
+            confirmButtonText: "Confirm",
+            confirmButtonColor: "#d33",
+            cancelButtonColor: '#6b7280',
+        })
+        if (text) {
+            fetch(`http://localhost:3500/properties/${property.id}`, {
+                method: 'PATCH',
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    ...property,
+                    status: "Rejected",
+                    rejectionMessage: text
+                })
+            })
+            rejectSwal.fire({
+                title: <h3 className="pb-3 text-lg font-bold leading-6 text-gray-900 border-b">Property status updated!</h3>,
+                confirmButtonText: "Done",
+                confirmButtonColor: "#d33"
+            }).then(location.reload())
+        }
+    }
 
     return (
         <>
@@ -75,7 +107,7 @@ export default function Admin() {
                                     </button>
                                     <button 
                                         className="bg-gray-500 hover:bg-gray-600 focus:ring-gray-200 focus:ring-4 text-white font-medium rounded-lg text-sm p-2 text-center"
-                                        onClick = {() => setSelectedProperty(property)}>
+                                        onClick = {() => handleReject(property)}>
                                         Reject
                                     </button>
                                 </div> :
