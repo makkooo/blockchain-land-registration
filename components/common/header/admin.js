@@ -1,7 +1,9 @@
 import { useWeb3 } from "@components/providers"
 import { useAccount } from "@components/hooks/web3/useAccount"
-import { AddFieldValidatorModal, AddPropertyModal } from "@components/properties"
+import { AddPropertyModal } from "@components/properties"
 import { useState, useEffect } from "react"
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 /**
  * Admin header component of the App.
@@ -16,12 +18,14 @@ export default function AdminHeader() {
     const [showAddFvModal, setShowAddFvModal] = useState(null)
 
     // Web3 component constants
-    const { connect, isLoading, isWeb3Loaded, contract } = useWeb3()
+    const { connect, isLoading, isWeb3Loaded, contract, web3 } = useWeb3()
 
     // MetaMask account constant
     const { account } = useAccount()
 
     const [isAuthorized, setIsAuthorized] = useState(false)
+
+    const addFvSwal = withReactContent(Swal)
 
     useEffect(async () => {
         try {
@@ -31,6 +35,54 @@ export default function AdminHeader() {
             console.log("isFieldValidator() failed.")
         }
     }, [account.data])
+
+    const addFieldValidator = async () => {
+        const { value: text } = await addFvSwal.fire({
+            input: "text",
+            title: <h3 className="pb-3 text-lg font-bold leading-6 text-gray-900 border-b">Add Field Validator</h3>,
+            inputPlaceholder: "Input ETH Address",
+            inputValidator: (value) => {
+                if (!value) {
+                  return 'Please input ETH Address!'
+                }
+                if(!web3.utils.isAddress(value)) {
+                    return 'Invalid ETH Address!'
+                }
+                if(value == 0x49cA365BD02D83c7a4d43AE99C110a11f99Ce182) {
+                    return 'Cannot add Field Validator privileges to Admin account'
+                }
+            },
+            showCancelButton: true,
+            confirmButtonText: "Confirm",
+            confirmButtonColor: "#d33",
+            cancelButtonColor: '#6b7280',
+        })
+        if(text){
+            addFvSwal.fire({
+                title: <h3 className="pb-3 text-lg font-bold leading-6 text-gray-900 border-b">Are you sure?</h3>,
+                text: `Add ${text} as Field Validator?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: "Confirm",
+                confirmButtonColor: "#d33",
+                cancelButtonColor: '#6b7280',
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    try {
+                        await contract.methods.addFieldValidator(text).send({from: account.data})
+                        await addFvSwal.fire({
+                            title: <h3 className="pb-3 text-lg font-bold leading-6 text-gray-900 border-b">ETH Address added as Field Validator!</h3>,
+                            confirmButtonText: "Confirm",
+                            confirmButtonColor: "#d33",
+                            icon: "success"
+                        })
+                    } catch {
+                        console.log("Add Field Validator operation failed.")
+                    }
+                }
+            })
+        }
+    }
 
     return (
         <header className="bg-white px-10 border-b">
@@ -56,7 +108,7 @@ export default function AdminHeader() {
                         <div>
                             <button
                                 className="text-black hover:text-red-500 font-medium mx-3 p-2 text-center"
-                                onClick={() => setShowAddFvModal(true)}>
+                                onClick={() => addFieldValidator()}>
                                 Add Field Validator
                             </button>
                             <button 
@@ -112,13 +164,6 @@ export default function AdminHeader() {
                 <AddPropertyModal
                     account={account.data}
                     onClose={() => setShowAddPropModal(null)}
-                />
-            }
-            {
-                showAddFvModal && 
-                <AddFieldValidatorModal
-                    account={account}
-                    onClose={() => setShowAddFvModal(null)}
                 />
             }
         </header>

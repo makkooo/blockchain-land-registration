@@ -58,6 +58,11 @@ export default function Admin() {
             input: "textarea",
             title: <h3 className="pb-3 text-lg font-bold leading-6 text-gray-900 border-b">Reject Property</h3>,
             inputPlaceholder: "Type rejection message here...",
+            inputValidator: (value) => {
+                if (!value) {
+                  return 'Please input rejection message!'
+                }
+            },
             showCancelButton: true,
             confirmButtonText: "Confirm",
             confirmButtonColor: "#d33",

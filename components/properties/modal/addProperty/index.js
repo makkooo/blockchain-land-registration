@@ -62,7 +62,7 @@ export default function AddPropertyModal({account, onClose}) {
             body: JSON.stringify({
                 ...propertyDetails,
                 status: "Created",
-                image: "https://thrangra.sirv.com/Next_TypeScript_Shopify_Final.jpg",
+                image: "https://via.placeholder.com/1500x900",
                 validator: account,
                 deed: [{}],
                 createdAt: Date.now()
