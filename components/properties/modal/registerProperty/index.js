@@ -2,6 +2,8 @@ import Modal from "@components/common/modal";
 import { useAccount } from "@components/hooks/web3/useAccount";
 import { useWeb3 } from "@components/providers";
 import { useEffect, useState } from "react";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 /**
  * Sets the default property deed 
@@ -34,6 +36,8 @@ export default function RegisterPropertyModal({property, onClose}) {
 
     // Sets property deed details
     const [deedDetails, setDeedDetails] = useState(defaultDeedDetails)
+
+    const confirmationSwal = withReactContent(Swal)
 
     /**
      * Checks if property object!=null
@@ -91,7 +95,7 @@ export default function RegisterPropertyModal({property, onClose}) {
                 Number(deedDetails.lrcNum)
             ).send({from: account.data})
 
-            await fetch(`http://localhost:3500/properties/${property.id}`, {
+            fetch(`http://localhost:3500/properties/${property.id}`, {
                 method: 'PATCH',
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -102,7 +106,18 @@ export default function RegisterPropertyModal({property, onClose}) {
                         registeredAt: Date.now()
                     }]
                 })
-            }).then(closeModal()).then(location.reload())
+            }).then(closeModal())
+            
+            confirmationSwal.fire({
+                title: <h3 className="pb-3 text-lg font-bold leading-6 text-gray-900 border-b">Property registered!</h3>,
+                confirmButtonText: "Done",
+                confirmButtonColor: "#d33",
+                icon: "success"
+            }).then((result) => {
+                if(result.isConfirmed) {
+                    location.reload()
+                }
+            })
         } catch {
             // If transaction failed
             console.log("Property registration has failed. Please try again.")

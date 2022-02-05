@@ -57,12 +57,12 @@ export default function Validated() {
                 status: "Pending"
             })
         })
-        await makeAvailableSwal.fire({
+        makeAvailableSwal.fire({
             title: <h3 className="pb-3 text-lg font-bold leading-6 text-gray-900 border-b">Property marked as available!</h3>,
+            confirmButtonText: "Done",
             confirmButtonColor: "#d33",
             icon: "success"
-        })
-        .then((result) => {
+        }).then((result) => {
             if(result.isConfirmed) {
                 location.reload()
             }
@@ -81,7 +81,7 @@ export default function Validated() {
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#d33",
-            cancelButtonColor: '#6b7280',
+            cancelButtonColor: "#6b7280",
             confirmButtonText: "Confirm"
         }).then((result) => {
             if(result.isConfirmed) {
@@ -90,6 +90,7 @@ export default function Validated() {
                 })
                 deleteSwal.fire({
                     title: <h3 className="pb-3 text-lg font-bold leading-6 text-gray-900 border-b">Property deleted!</h3>,
+                    confirmButtonText: "Done",
                     confirmButtonColor: "#d33",
                     icon: "success"
                 }).then((result) => {

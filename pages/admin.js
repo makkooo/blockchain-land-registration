@@ -2,6 +2,7 @@ import { useAccount } from "@components/hooks/web3/useAccount"
 import { AdminLayout } from "@components/layout"
 import { PropertyCard, PropertyList, PropertyModal, RegisterPropertyModal } from "@components/properties"
 import { useWeb3 } from "@components/providers"
+import { info } from "autoprefixer"
 import { useState, useEffect } from "react"
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
@@ -53,7 +54,8 @@ export default function Admin() {
             {setProperties(data)})
     }, [])
 
-    const handleReject = async (property) => {
+    const handleReject = async (e, property) => {
+        e.preventDefault()
         const { value: text } = await rejectSwal.fire({
             input: "textarea",
             title: <h3 className="pb-3 text-lg font-bold leading-6 text-gray-900 border-b">Reject Property</h3>,
@@ -67,6 +69,7 @@ export default function Admin() {
             confirmButtonText: "Confirm",
             confirmButtonColor: "#d33",
             cancelButtonColor: '#6b7280',
+            icon: 'warning'
         })
         if (text) {
             fetch(`http://localhost:3500/properties/${property.id}`, {
@@ -81,8 +84,13 @@ export default function Admin() {
             rejectSwal.fire({
                 title: <h3 className="pb-3 text-lg font-bold leading-6 text-gray-900 border-b">Property status updated!</h3>,
                 confirmButtonText: "Done",
-                confirmButtonColor: "#d33"
-            }).then(location.reload())
+                confirmButtonColor: "#d33",
+                icon: "success"
+            }).then((result) => {
+                if(result.isConfirmed) {
+                    location.reload()
+                }
+            })
         }
     }
 
@@ -112,12 +120,12 @@ export default function Admin() {
                                     </button>
                                     <button 
                                         className="bg-gray-500 hover:bg-gray-600 focus:ring-gray-200 focus:ring-4 text-white font-medium rounded-lg text-sm p-2 text-center"
-                                        onClick = {() => handleReject(property)}>
+                                        onClick = {(e) => handleReject(e, property)}>
                                         Reject
                                     </button>
                                 </div> :
 
-                                // If account is account Field Validator
+                                // If account is Field Validator
                                 <button
                                     className="bg-red-500 hover:bg-red-600 focus:ring-red-200 focus:ring-4 text-white font-medium rounded-lg text-sm p-2 text-center"
                                     onClick = {() => setSelectedProperty(property)}>

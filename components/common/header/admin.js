@@ -43,13 +43,13 @@ export default function AdminHeader() {
             inputPlaceholder: "Input ETH Address",
             inputValidator: (value) => {
                 if (!value) {
-                  return 'Please input ETH Address!'
+                  return "Please input ETH Address!"
                 }
                 if(!web3.utils.isAddress(value)) {
-                    return 'Invalid ETH Address!'
+                    return "Invalid ETH Address!"
                 }
                 if(value == 0x49cA365BD02D83c7a4d43AE99C110a11f99Ce182) {
-                    return 'Cannot add Field Validator privileges to Admin account'
+                    return "Cannot add Field Validator privileges to Admin account"
                 }
             },
             showCancelButton: true,
@@ -65,14 +65,14 @@ export default function AdminHeader() {
                 showCancelButton: true,
                 confirmButtonText: "Confirm",
                 confirmButtonColor: "#d33",
-                cancelButtonColor: '#6b7280',
+                cancelButtonColor: "#6b7280",
             }).then(async (result) => {
                 if (result.isConfirmed) {
                     try {
                         await contract.methods.addFieldValidator(text).send({from: account.data})
                         await addFvSwal.fire({
                             title: <h3 className="pb-3 text-lg font-bold leading-6 text-gray-900 border-b">ETH Address added as Field Validator!</h3>,
-                            confirmButtonText: "Confirm",
+                            confirmButtonText: "Done",
                             confirmButtonColor: "#d33",
                             icon: "success"
                         })

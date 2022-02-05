@@ -49,6 +49,7 @@ export default function EditPropertyModal({property, onClose}) {
         })
         await editSwal.fire({
             title: <h3 className="pb-3 text-lg font-bold leading-6 text-gray-900 border-b">Property details updated!</h3>,
+            confirmButtonText: "Done",
             confirmButtonColor: "#d33",
             icon: "success"
         }).then((result) => {

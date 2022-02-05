@@ -70,6 +70,7 @@ export default function AddPropertyModal({account, onClose}) {
         })
         await AddSwal.fire({
             title: <h3 className="pb-3 text-lg font-bold leading-6 text-gray-900 border-b">Property added!</h3>,
+            confirmButtonText: "Done",
             confirmButtonColor: "#d33",
             icon: "success"
         }).then((result) => {
